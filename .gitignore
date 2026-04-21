@@ -16,3 +16,4 @@ corpus/raw/
 corpus/chunks.jsonl
 corpus/index.faiss
 corpus/*.cache
+.claude/settings.local.json
