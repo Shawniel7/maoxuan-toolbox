@@ -9,7 +9,7 @@ markdownify==0.13.1
 
 # Embedding (local default)
 sentence-transformers==3.2.1
-torch==2.5.1
+torch==2.2.2
 faiss-cpu==1.9.0
 
 # API surface
