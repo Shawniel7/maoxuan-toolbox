@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>浏览全部工具 · 思想工具箱</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">思想工具箱</h1>
+    <p class="site-subtitle">—— 浏览全部工具</p>
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="browse.html" class="active">浏览工具</a>
+      <a href="about.html">关于</a>
+    </nav>
+  </header>
+
+  <main>
+    <p style="color: var(--ink-soft); margin-bottom: 1rem">
+      下面是目前收录的所有思想工具。点击任意卡片查看完整原文引用、现代译读、类比故事与行动清单。
+    </p>
+    <div id="browse-grid" class="browse-grid"></div>
+
+    <section id="detail" class="hidden" style="margin-top:3rem"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      本项目是学习工具,不提供政治立场,不替代专业建议 ·
+      <a href="about.html">免责声明</a>
+    </p>
+  </footer>
+
+  <script src="js/renderer.js"></script>
+  <script>
+    (async function init() {
+      const res = await fetch('data/entries.json');
+      const entries = await res.json();
+      const grid = document.getElementById('browse-grid');
+      const detail = document.getElementById('detail');
+
+      entries.forEach(entry => {
+        const a = document.createElement('a');
+        a.className = 'browse-card';
+        a.href = '#' + entry.id;
+        a.innerHTML = `
+          <h3>${entry.title}</h3>
+          <div class="src">${entry.theory_source}</div>
+          <p style="margin:0;color:var(--ink-soft)">${entry.one_liner}</p>
+          <div class="tags">
+            ${entry.tags.slice(0, 5).map(t => `<span class="tag">${t}</span>`).join('')}
+          </div>
+        `;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          detail.innerHTML = '';
+          detail.appendChild(renderEntryCard(entry));
+          detail.classList.remove('hidden');
+          location.hash = entry.id;
+          setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+        });
+        grid.appendChild(a);
+      });
+
+      // If URL has hash, auto-open that entry
+      if (location.hash) {
+        const id = location.hash.slice(1);
+        const entry = entries.find(e => e.id === id);
+        if (entry) {
+          detail.appendChild(renderEntryCard(entry));
+          detail.classList.remove('hidden');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.marxists.org)",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} final_url=%{url_effective}\\\\n\" -L \"https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-19410519.htm\" --max-time 12)",
+      "Bash(curl -s -L \"https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-19410519.htm\" --max-time 12)",
+      "Bash(iconv -f gb2312 -t utf-8)",
+      "Bash(curl -s -L \"https://www.marxists.org/chinese/maozedong/index.htm\" --max-time 15)",
+      "Bash(node -e \"const e = require\\('./data/entries.json'\\); console.log\\('entries:', e.length\\); console.log\\('ids:', e.map\\(x => x.id\\).join\\(', '\\)\\); const bad = e.filter\\(x => !x.id || !x.title || !x.original_excerpts || !x.action_checklist\\); console.log\\('malformed:', bad.length\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(/usr/bin/python3 -m http.server 8765)",
+      "Bash(/usr/bin/curl -s -o /dev/null -w '%{http_code} %{size_download}B  /__TRACKED_VAR__\\\\n' http://localhost:8765/__TRACKED_VAR__)",
+      "Bash(pkill -f \"http.server 8765\")",
+      "Bash(/usr/bin/python3 *)",
+      "Bash(/opt/anaconda3/bin/curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8080/\")",
+      "Bash(/opt/anaconda3/bin/curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8080/data/entries.json\")",
+      "Bash(chmod +x *)",
+      "Bash(python3 *)",
+      "Bash(grep -v '^\\\\./\\\\\\(index\\\\|browse\\\\|about\\\\\\)\\\\.html$')",
+      "Bash(grep -v '^\\\\./styles\\\\.css$')",
+      "Bash(grep -v '^\\\\./CONTRIBUTING\\\\.md$')",
+      "Bash(grep -v '^\\\\./LICENSE$')",
+      "Bash(bash -n /Users/xiaoyichen/Maotheory/setup.sh)"
+    ]
+  }
+}

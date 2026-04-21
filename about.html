@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>关于 · 思想工具箱</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">思想工具箱</h1>
+    <p class="site-subtitle">—— 关于这个项目</p>
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="browse.html">浏览工具</a>
+      <a href="about.html" class="active">关于</a>
+    </nav>
+  </header>
+
+  <main class="prose">
+
+    <h2>这是什么</h2>
+    <p>
+      一个纯静态网页。你把当下的困惑写进去,它会匹配一到三个
+      <strong>毛泽东著作中的分析方法</strong>(矛盾论、实践论、实事求是……),
+      给你一份「原文短引 + 出处链接 + 现代译读 + 类比故事 + 行动清单」。
+    </p>
+    <p>
+      出发点很简单:这些著作里有一套被长期使用、经历过残酷检验的分析方法 ——
+      抓主要矛盾、从实践中来到实践中去、没有调查就没有发言权、持久战思维。
+      它们被创造时的历史任务已经远去,但作为<strong>思考工具</strong>,
+      它们今天仍然锋利。这个网站把它们从教科书的位置搬下来,
+      放到当代人会遇到的具体困惑旁边。
+    </p>
+
+    <h2>这不是什么</h2>
+    <p>
+      <strong>不是政治宣传,也不是鸡汤。</strong>
+      项目不评价毛泽东的历史功过、不讨论具体政治立场,
+      只处理其著作中具备普适性的<strong>方法论部分</strong>。
+    </p>
+    <p>
+      <strong>不是专业建议。</strong>
+      它不替代心理咨询、法律咨询、医疗建议、职业规划师的角色。
+      当你面对的问题超出了"换个思路"能解决的范围,请找合格的专业人士。
+    </p>
+    <p>
+      <strong>不是算命,也不是万能钥匙。</strong>
+      匹配结果是基于关键词和标签的粗略推荐;
+      真正有用的工作发生在你合上浏览器、去做那三到五条行动清单的时候。
+    </p>
+
+    <h2>免责声明</h2>
+    <div class="disclaimer">
+      本项目是一个学习工具,目的是提取毛泽东著作中具有普适性的
+      <strong>分析方法</strong>(矛盾分析、实事求是、实践认识论等),
+      帮助读者思考当代个人困惑。项目
+      <strong>不提供政治立场、不替代专业心理 / 法律 / 医疗建议</strong>。
+      原文引用遵循合理使用原则,仅摘短句并标明出处,鼓励读者阅读完整原著。
+      引用源主要为<a href="https://www.marxists.org/chinese/maozedong/index.htm" target="_blank" rel="noopener">中文马克思主义文库</a>等公开学术资源。
+    </div>
+
+    <h2>数据与开源</h2>
+    <p>
+      全部思想工具数据在 <code>data/entries.json</code> 中。
+      这是一份开放的、持续增长的清单 —— 欢迎通过 PR 增补新的条目、
+      修正引文、添加现代类比故事。贡献指南见 <code>CONTRIBUTING.md</code>。
+    </p>
+    <p>
+      项目以 MIT 协议开源。欢迎 fork 做成你自己的"思想工具箱"——
+      阳明心学版、斯多葛版、佛学禅宗版、系统动力学版 …… 方法论的谱系很长,
+      把它们从经典里接出来,供人当代使用,是件值得做的事。
+    </p>
+
+    <h2>可选 AI 模式</h2>
+    <p>
+      网站默认<strong>完全本地运行、不联网</strong>。
+      在设置里,你可以粘贴自己的 Anthropic API key 启用 AI 模式 ——
+      那之后,Claude 会基于你的具体情境生成个性化的分析。
+      你的 key 只保存在 <code>localStorage</code>,
+      仅被发送给 <code>api.anthropic.com</code>,
+      不会上传到这个项目的任何后端(因为这个项目没有后端)。
+    </p>
+
+    <h2>致谢</h2>
+    <p>
+      感谢
+      <a href="https://www.marxists.org/chinese/maozedong/index.htm" target="_blank" rel="noopener">中文马克思主义文库</a>
+      提供的稳定公开文献,以及一切愿意把思想工具化、让它们在当代继续做功的人。
+    </p>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      思想工具箱 · MIT License ·
+      <a href="index.html">返回首页</a>
+    </p>
+  </footer>
+</body>
+</html>

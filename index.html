@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>思想工具箱 · 用毛泽东思想方法分析当代困惑</title>
+  <meta name="description" content="把你的烦恼说给一套冷静的分析方法听 —— 矛盾论、实践论、实事求是的当代读法。" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">思想工具箱</h1>
+    <p class="site-subtitle">—— 用毛泽东思想方法,分析当代困惑</p>
+    <nav class="site-nav">
+      <a href="index.html" class="active">首页</a>
+      <a href="browse.html">浏览工具</a>
+      <a href="about.html">关于</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="input-section">
+      <label for="user-input" class="prompt-label">说说你最近卡在哪里?</label>
+      <div class="input-wrap">
+        <textarea
+          id="user-input"
+          maxlength="500"
+          placeholder="把具体的事情写出来 —— 比如:'我不知道该考研还是先工作','天天焦虑但什么都没做','同龄人都比我强,快撑不住了' …… 越具体,分析越有用。"
+        ></textarea>
+        <div class="char-counter"><span id="char-count">0</span> / 500</div>
+      </div>
+
+      <div class="button-row">
+        <button id="analyze-btn" class="primary">分析</button>
+        <a href="browse.html" class="btn">浏览全部工具</a>
+        <button id="toggle-settings" class="btn" type="button" style="margin-left:auto">⚙ 设置</button>
+      </div>
+
+      <div class="examples">
+        <div class="label">试试 ▾</div>
+        <span class="example-chip" data-fill="我不知道该先做什么,事情一堆一堆的,每件都觉得重要">我不知道先做什么</span>
+        <span class="example-chip" data-fill="天天焦虑但一直没有行动,想得多做得少,精神内耗">想得多,做得少</span>
+        <span class="example-chip" data-fill="同龄人都比我强,感觉自己快撑不住了,看不到头">看不到头,撑不下去</span>
+        <span class="example-chip" data-fill="最近和伴侣经常吵架,一点小事就争到底是谁错,关系很紧张">吵架到底是谁的错</span>
+        <span class="example-chip" data-fill="我不太敢开始那件一直想做的事,总觉得自己做不到,怕失败">害怕开始</span>
+        <span class="example-chip" data-fill="写了一年东西一直没人看,感觉是不是在闭门造车">作品没人看</span>
+      </div>
+
+      <div id="settings-panel" class="settings-panel hidden">
+        <h3>AI 模式(可选)</h3>
+        <p>默认关闭。启用后,会把你的输入发送给 Anthropic Claude 做个性化分析。<strong>API key 只存在浏览器本地,绝不上传到本站。</strong></p>
+        <label class="ai-toggle">
+          <input type="checkbox" id="ai-enabled" />
+          启用 AI 个性化分析
+        </label>
+        <p style="margin-top:0.8rem">Anthropic API key(可选):</p>
+        <input id="ai-apikey" type="password" placeholder="sk-ant-..." autocomplete="off" />
+        <p style="font-size:0.8rem">
+          Key 保存在 <code>localStorage</code> 中,仅发送至 <code>api.anthropic.com</code>。
+          可随时清空。
+          <button id="clear-key" class="btn" style="padding:0.25rem 0.7rem; font-size:0.8rem; margin-left:0.3rem">清空</button>
+        </p>
+      </div>
+    </section>
+
+    <section id="results" class="hidden" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      本项目是学习工具,不提供政治立场,不替代专业建议 ·
+      <a href="about.html">免责声明</a> ·
+      <a href="https://github.com/">源码(MIT)</a>
+    </p>
+  </footer>
+
+  <script src="js/matcher.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/ai-mode.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

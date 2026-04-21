@@ -1,0 +1,565 @@
+{
+  "corpus_name": "毛泽东选集（四卷本）",
+  "schema_version": 1,
+  "source_primary": "https://www.marxists.org/chinese/maozedong/",
+  "source_backup": "https://zh.wikisource.org/wiki/%E6%AF%9B%E6%BE%A4%E6%9D%B1%E9%81%B8%E9%9B%86",
+  "generated_at": "2026-04-21",
+  "seed_source": "v3 spec seed list (verbatim). Titles NOT already in the spec are NOT invented here.",
+  "expected_total": 159,
+  "seeded_count": 47,
+  "completion_note": "Step 2 of the build populates all url_primary fields AND discovers the ~112 remaining article titles by fetching the marxists.org Mao index page. IDs in this file may be renumbered in Step 2 once the full list is known — treat them as provisional. After Step 2, seeded_count should equal expected_total (±2).",
+  "status_legend": {
+    "pending": "known title, no url yet",
+    "ready": "title + url resolved, awaiting crawl",
+    "downloaded": "raw HTML fetched, cleaned markdown saved under corpus/raw/",
+    "failed": "fetch failed after max retries; see `error` field",
+    "skipped": "manually excluded"
+  },
+  "volumes": [
+    {
+      "volume": 1,
+      "title": "毛泽东选集 第一卷",
+      "period": "1925-1937",
+      "articles": [
+        {
+          "id": "v1-001",
+          "title": "中国社会各阶级的分析",
+          "year": 1925,
+          "month": 12,
+          "category": "阶级分析",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-002",
+          "title": "湖南农民运动考察报告",
+          "year": 1927,
+          "month": 3,
+          "category": "阶级分析",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-003",
+          "title": "中国的红色政权为什么能够存在？",
+          "year": 1928,
+          "month": 10,
+          "category": "武装斗争",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-004",
+          "title": "井冈山的斗争",
+          "year": 1928,
+          "month": 11,
+          "category": "武装斗争",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-005",
+          "title": "关于纠正党内的错误思想",
+          "year": 1929,
+          "month": 12,
+          "category": "党建",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-006",
+          "title": "星星之火，可以燎原",
+          "year": 1930,
+          "month": 1,
+          "category": "武装斗争",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-007",
+          "title": "反对本本主义",
+          "year": 1930,
+          "month": 5,
+          "category": "哲学方法论",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-008",
+          "title": "必须注意经济工作",
+          "year": 1933,
+          "month": 8,
+          "category": "经济工作",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-009",
+          "title": "怎样分析农村阶级",
+          "year": 1933,
+          "month": 10,
+          "category": "阶级分析",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-010",
+          "title": "关心群众生活，注意工作方法",
+          "year": 1934,
+          "month": 1,
+          "category": "群众路线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-011",
+          "title": "论反对日本帝国主义的策略",
+          "year": 1935,
+          "month": 12,
+          "category": "统一战线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-012",
+          "title": "中国革命战争的战略问题",
+          "year": 1936,
+          "month": 12,
+          "category": "军事战略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-013",
+          "title": "关于蒋介石声明的声明",
+          "year": 1936,
+          "month": 12,
+          "category": "统一战线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-014",
+          "title": "中国共产党在抗日时期的任务",
+          "year": 1937,
+          "month": 5,
+          "category": "统一战线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-015",
+          "title": "为争取千百万群众进入抗日民族统一战线而斗争",
+          "year": 1937,
+          "month": 5,
+          "category": "统一战线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-016",
+          "title": "实践论",
+          "year": 1937,
+          "month": 7,
+          "category": "哲学方法论",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v1-017",
+          "title": "矛盾论",
+          "year": 1937,
+          "month": 8,
+          "category": "哲学方法论",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        }
+      ]
+    },
+    {
+      "volume": 2,
+      "title": "毛泽东选集 第二卷",
+      "period": "1937-1941",
+      "articles": [
+        {
+          "id": "v2-001",
+          "title": "反对日本进攻的方针、办法和前途",
+          "year": 1937,
+          "month": 7,
+          "category": "抗战策略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-002",
+          "title": "反对自由主义",
+          "year": 1937,
+          "month": 9,
+          "category": "党建",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-003",
+          "title": "国共合作成立后的迫切任务",
+          "year": 1937,
+          "month": 9,
+          "category": "统一战线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-004",
+          "title": "和英国记者贝特兰的谈话",
+          "year": 1937,
+          "month": 10,
+          "category": "抗战策略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-005",
+          "title": "上海太原失陷以后抗日战争的形势和任务",
+          "year": 1937,
+          "month": 11,
+          "category": "抗战策略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-006",
+          "title": "抗日游击战争的战略问题",
+          "year": 1938,
+          "month": 5,
+          "category": "军事战略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-007",
+          "title": "论持久战",
+          "year": 1938,
+          "month": 5,
+          "category": "军事战略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-008",
+          "title": "论新阶段",
+          "year": 1938,
+          "month": 10,
+          "category": "党建",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-009",
+          "title": "统一战线中的独立自主问题",
+          "year": 1938,
+          "month": 11,
+          "category": "统一战线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-010",
+          "title": "战争和战略问题",
+          "year": 1938,
+          "month": 11,
+          "category": "军事战略",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-011",
+          "title": "五四运动",
+          "year": 1939,
+          "month": 5,
+          "category": "文化/青年",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-012",
+          "title": "青年运动的方向",
+          "year": 1939,
+          "month": 5,
+          "category": "文化/青年",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-013",
+          "title": "中国革命和中国共产党",
+          "year": 1939,
+          "month": 12,
+          "category": "革命理论",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-014",
+          "title": "纪念白求恩",
+          "year": 1939,
+          "month": 12,
+          "category": "品格/精神",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-015",
+          "title": "新民主主义论",
+          "year": 1940,
+          "month": 1,
+          "category": "革命理论",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v2-016",
+          "title": "改造我们的学习",
+          "year": 1941,
+          "month": 5,
+          "category": "党建/整风",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        }
+      ]
+    },
+    {
+      "volume": 3,
+      "title": "毛泽东选集 第三卷",
+      "period": "1941-1945",
+      "articles": [
+        {
+          "id": "v3-001",
+          "title": "整顿党的作风",
+          "year": 1942,
+          "month": 2,
+          "category": "党建/整风",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v3-002",
+          "title": "反对党八股",
+          "year": 1942,
+          "month": 2,
+          "category": "党建/整风",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v3-003",
+          "title": "在延安文艺座谈会上的讲话",
+          "year": 1942,
+          "month": 5,
+          "category": "文化/文艺",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v3-004",
+          "title": "关于领导方法的若干问题",
+          "year": 1943,
+          "month": 6,
+          "category": "领导方法",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v3-005",
+          "title": "为人民服务",
+          "year": 1944,
+          "month": 9,
+          "category": "群众路线",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v3-006",
+          "title": "论联合政府",
+          "year": 1945,
+          "month": 4,
+          "category": "政治纲领",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v3-007",
+          "title": "愚公移山",
+          "year": 1945,
+          "month": 6,
+          "category": "品格/精神",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        }
+      ]
+    },
+    {
+      "volume": 4,
+      "title": "毛泽东选集 第四卷",
+      "period": "1945-1949",
+      "articles": [
+        {
+          "id": "v4-001",
+          "title": "抗日战争胜利后的时局和我们的方针",
+          "year": 1945,
+          "month": 8,
+          "category": "政治形势",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v4-002",
+          "title": "和美国记者安娜·路易斯·斯特朗的谈话",
+          "year": 1946,
+          "month": 8,
+          "category": "国际关系",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v4-003",
+          "title": "关于情况的通报",
+          "year": 1948,
+          "month": 3,
+          "category": "政治形势",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v4-004",
+          "title": "在晋绥干部会议上的讲话",
+          "year": 1948,
+          "month": 4,
+          "category": "领导方法",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v4-005",
+          "title": "目前形势和我们的任务",
+          "year": 1947,
+          "month": 12,
+          "category": "政治形势",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v4-006",
+          "title": "党委会的工作方法",
+          "year": 1949,
+          "month": 3,
+          "category": "领导方法",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        },
+        {
+          "id": "v4-007",
+          "title": "论人民民主专政",
+          "year": 1949,
+          "month": 6,
+          "category": "政治纲领",
+          "url_primary": null,
+          "url_backup": null,
+          "status": "pending",
+          "confidence": "spec_seed"
+        }
+      ]
+    }
+  ]
+}
