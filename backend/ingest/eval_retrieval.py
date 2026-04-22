@@ -20,6 +20,7 @@ import argparse
 import sys
 from collections import Counter
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable
 
 from backend import rag
@@ -174,18 +175,90 @@ RETRIEVERS = {
     "bm25": rag.retrieve_bm25,
     "hybrid": rag.retrieve_hybrid,
     "hybrid_diverse": rag.retrieve_hybrid_diverse,
+    "hybrid_rewrite": rag.retrieve_with_rewrite,
+    "hybrid_rewrite_rerank": rag.retrieve_with_rerank,
 }
+
+
+# Haiku 4.5 pricing (USD per 1M tokens) — source: Anthropic pricing as of build time
+HAIKU_PRICE_PER_MTOK_IN = 1.00
+HAIKU_PRICE_PER_MTOK_OUT = 5.00
+
+
+def _compact_table(reports: list["EvalReport"]) -> None:
+    print("\n" + "=" * 80)
+    print("INCREMENTAL COMPARISON")
+    print("=" * 80)
+    header = f"{'retriever':<20} {'hit@1':>7} {'hit@5':>7} {'hit@10':>7} {'MRR':>7} {'attractors':>11} {'diversity':>10}"
+    print(header)
+    print("-" * len(header))
+    for r in reports:
+        print(f"{r.retriever:<20} {r.hit_at_1*100:6.1f}% {r.hit_at_5*100:6.1f}% {r.hit_at_10*100:6.1f}%  {r.mrr:.4f} {len(r.attractors):>11} {r.mean_diversity_top10:>10.2f}")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--retriever", choices=list(RETRIEVERS.keys()) + ["all"], default="all")
+    ap.add_argument("--retriever", choices=list(RETRIEVERS.keys()) + ["all", "incremental"], default="incremental")
+    ap.add_argument("--show-rewrites", action="store_true",
+                    help="When running hybrid_rewrite, print the generated rewrite list for each query.")
     args = ap.parse_args()
 
-    names = list(RETRIEVERS.keys()) if args.retriever == "all" else [args.retriever]
+    # Load .env if present so ANTHROPIC_API_KEY is available
+    try:
+        from dotenv import load_dotenv
+        env_path = Path(__file__).resolve().parents[1] / ".env"
+        if env_path.exists():
+            load_dotenv(env_path)
+    except ImportError:
+        pass
+
+    if args.retriever == "incremental":
+        names = ["dense", "bm25", "hybrid", "hybrid_diverse", "hybrid_rewrite", "hybrid_rewrite_rerank"]
+    elif args.retriever == "all":
+        names = list(RETRIEVERS.keys())
+    else:
+        names = [args.retriever]
+
+    # Reset USAGE before we run
+    rag.USAGE["input_tokens"] = 0
+    rag.USAGE["output_tokens"] = 0
+    rag.USAGE["calls"] = 0
+    rag.USAGE["cache_hits"] = 0
+    rag.USAGE["fallbacks"] = 0
+
+    reports = []
     for n in names:
-        r = run(RETRIEVERS[n], n)
+        fn = RETRIEVERS[n]
+        r = run(fn, n)
         print_report(r)
+        reports.append(r)
+
+        # After hybrid_rewrite: print per-query rewrites if requested and show cost
+        if n == "hybrid_rewrite" and args.show_rewrites:
+            print("\n--- Rewrites produced by Haiku for each query ---")
+            for tc in TEST_SET:
+                rewrites = rag.rewrite_query(tc["query"])  # served from cache after eval run
+                print(f"\n  {tc['query']!r}")
+                for rw in rewrites:
+                    marker = "  ← original" if rw == tc["query"] else ""
+                    print(f"    • {rw}{marker}")
+
+    # Compact table
+    if len(reports) > 1:
+        _compact_table(reports)
+
+    # Cost report
+    u = rag.USAGE
+    if u["calls"] > 0 or u["cache_hits"] > 0:
+        cost_in = u["input_tokens"] / 1_000_000 * HAIKU_PRICE_PER_MTOK_IN
+        cost_out = u["output_tokens"] / 1_000_000 * HAIKU_PRICE_PER_MTOK_OUT
+        print(f"\n[cost] Haiku API usage for this eval run:")
+        print(f"  calls:        {u['calls']}")
+        print(f"  cache hits:   {u['cache_hits']}")
+        print(f"  fallbacks:    {u['fallbacks']}")
+        print(f"  input_tokens:  {u['input_tokens']:,}  → ${cost_in:.4f}")
+        print(f"  output_tokens: {u['output_tokens']:,}  → ${cost_out:.4f}")
+        print(f"  total cost:                    ${cost_in + cost_out:.4f}")
 
 
 if __name__ == "__main__":
