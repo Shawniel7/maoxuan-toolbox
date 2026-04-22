@@ -18,7 +18,7 @@
 ![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab)
 ![158 articles](https://img.shields.io/badge/corpus-158_articles_·_3365_chunks-a0281e)
 
-*本项目由 [Xiaoyi Chen](https://github.com/Shawniel7) 发起,首次公开于 2026 年 4 月。commit 历史保留在 Git 中,可作为项目时间线的原始记录。*
+*本项目由 [Yichen Xiao](https://github.com/Shawniel7) 发起,首次公开于 2026 年 4 月。commit 历史保留在 Git 中,可作为项目时间线的原始记录。*
 
 ---
 
