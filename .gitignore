@@ -17,4 +17,6 @@ corpus/chunks.jsonl
 corpus/index.faiss
 corpus/*.cache
 corpus/_smoke_cache/
+corpus/bm25_index.pkl
+corpus/_embed_checkpoints/
 .claude/settings.local.json
