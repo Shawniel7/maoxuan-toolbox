@@ -1,14 +1,43 @@
 """Retrieval layer.
 
-Layers (composable, each in a separate entry point so eval harness can A/B them):
-    retrieve_dense(query, top_k)                 — faiss only
-    retrieve_bm25(query, top_k)                  — rank_bm25 + jieba only
-    retrieve_hybrid(query, top_k)                — vec + bm25 fused via RRF
-    retrieve_hybrid_diverse(query, top_k)        — + article-diversity cap
-    retrieve_with_rewrite(query, top_k)          — + LLM query rewriting (needs API key)
-    retrieve_with_rerank(query, top_k)           — + LLM rerank pass (needs API key)
+╭───────────────────────────────────────────────────────────────────────╮
+│  PRODUCTION DEFAULT:  rag.retrieve(query, top_k=8)                    │
+│                       (alias for rag.retrieve_with_rewrite)           │
+╰───────────────────────────────────────────────────────────────────────╯
 
-All loaders are module-level lazy singletons; reused across calls in the same process.
+Use `retrieve()` from agent.py and any other consumer. It runs:
+    Haiku query rewrite (3-5 毛选-vocabulary reformulations)
+        → dense (faiss bge-small-zh) + BM25 (rank_bm25/jieba) for each
+        → Reciprocal Rank Fusion across all result lists
+        → article-diversity cap (max 2 chunks per article in top_k)
+    Falls back gracefully to original-query-only when ANTHROPIC_API_KEY is
+    not set; degrades to ~33% hit@5 instead of 67% but never errors.
+
+Composable internals (exposed for eval / explicit opt-in):
+    retrieve_dense(query, top_k)            — faiss only, no fusion
+    retrieve_bm25(query, top_k)             — rank_bm25 + jieba only
+    retrieve_hybrid(query, top_k)           — dense + bm25 RRF, no rewriting
+    retrieve_hybrid_diverse(query, top_k)   — + article-diversity cap
+    retrieve_with_rewrite(query, top_k)     — + Haiku query rewriting (default)
+    retrieve_with_rerank(query, top_k)      — EXPERIMENTAL Haiku rerank;
+                                              regressed on current test set,
+                                              kept for future iteration.
+                                              See docs/rerank-experiment.md
+
+Eval results on the 10-query test set (eval_retrieval.py, date 2026-04-22):
+    retriever              hit@1   hit@5  hit@10     MRR
+    dense                  11.1%   33.3%   55.6%   0.211
+    bm25                   11.1%   33.3%   33.3%   0.161
+    hybrid                 22.2%   33.3%   44.4%   0.270
+    hybrid_diverse         22.2%   33.3%   44.4%   0.270
+    retrieve (=hybrid_rewrite) 33.3%  66.7%  77.8%  0.455  ← prod default
+    hybrid_rewrite_rerank  33.3%   44.4%   77.8%   0.405  ← experimental
+
+Reproduce: `python -m backend.ingest.eval_retrieval --retriever incremental`
+(requires ANTHROPIC_API_KEY for the rewrite-and-rerank rows).
+
+All loaders are module-level lazy singletons; reused across calls in the
+same process. Safe to import from agent.py without paying load cost upfront.
 """
 from __future__ import annotations
 
@@ -229,8 +258,14 @@ def retrieve_hybrid_diverse(
 # ───────────────────────── legacy signatures ─────────────────────────
 
 def retrieve(query: str, top_k: int = 8, filters: Optional[dict] = None) -> list[Chunk]:
-    """Legacy name. Defaults to dense."""
-    return retrieve_dense(query, top_k, filters)
+    """Production default retriever. Alias for retrieve_with_rewrite.
+
+    See module docstring for why this is the default and how it differs from
+    the other retrievers. Agents and other downstream consumers should call
+    this function unless they have a specific reason to opt into a different
+    layer (e.g., eval harnesses).
+    """
+    return retrieve_with_rewrite(query, top_k=top_k, filters=filters)
 
 
 def retrieve_with_rewrite(
