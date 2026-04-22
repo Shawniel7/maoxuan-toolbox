@@ -1,0 +1,100 @@
+{
+  "name": "upstream_extras",
+  "schema_version": 1,
+  "description": "Article entries discovered on marxists.org during Step 2 discovery that were NOT matched to any canonical 毛泽东选集 vol 1-4 title. Kept here rather than in the main manifest so the main corpus stays at the clean 158 毛选 entries, but preserved for possible future expansion (毛泽东文集, 建国以来毛泽东文稿, 未收入选集 pieces).",
+  "source_primary": "https://www.marxists.org/chinese/maozedong/",
+  "generated_at": "2026-04-21",
+  "count": 10,
+  "entries": [
+    {
+      "stable_slug": "193001-7442",
+      "title": "时局估量和红军行动问题（1930年1月5日）",
+      "datecode": "19300105",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/mia-chinese-mao-19300105.htm",
+      "discovered_in_volume_bucket": 1,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "193401-34d4",
+      "title": "我们的经济政策",
+      "datecode": "193401",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193401.htm",
+      "discovered_in_volume_bucket": 1,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "192600-d2f9",
+      "title": "纪念巴黎公社的重要意义",
+      "datecode": "1926-3",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-1926-3-18.htm",
+      "discovered_in_volume_bucket": 1,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "193703-898d",
+      "title": "中日问题与西安事变——和史沫特莱的谈话",
+      "datecode": "19370301",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/mia-chinese-mao-19370301.htm",
+      "discovered_in_volume_bucket": 1,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "193706-c446",
+      "title": "致美国共产党总书记厄尔·白劳德的信（1937年6月24日之前）",
+      "datecode": "19370624",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/mia-chinese-mao-19370624.htm",
+      "discovered_in_volume_bucket": 1,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "193805-e7f1",
+      "title": "陕甘宁边区政府第八路军后方留守处布告",
+      "datecode": "19380515",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-19380515.htm",
+      "discovered_in_volume_bucket": 2,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "194105-7b7b",
+      "title": "揭破远东慕尼黑的阴谋",
+      "datecode": "19410525",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-19410525.htm",
+      "discovered_in_volume_bucket": 2,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "194303-3204",
+      "title": "致野坂参三",
+      "datecode": "19430315",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/mia-chinese-mao-19430315.htm",
+      "discovered_in_volume_bucket": 3,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "194505-3204",
+      "title": "致野坂参三",
+      "datecode": "19450528",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/mia-chinese-mao-19450528.htm",
+      "discovered_in_volume_bucket": 3,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    },
+    {
+      "stable_slug": "194508-8a79",
+      "title": "第十八集团军总司令给蒋介石的两个电报",
+      "datecode": "194508",
+      "url_primary": "https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-194508.htm",
+      "discovered_in_volume_bucket": 4,
+      "reason_excluded": "not matched against canonical 毛选 ToC during Step 2 reconciliation; provisional candidate for future 毛泽东文集 / 建国以来毛泽东文稿 expansion",
+      "volume": null
+    }
+  ]
+}
