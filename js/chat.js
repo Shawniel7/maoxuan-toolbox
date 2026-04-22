@@ -12,15 +12,10 @@
   "use strict";
 
   // ─── Config ──────────────────────────────────────────────────────
-  // When served from localhost:8080 static server, hit backend on :8000.
-  // When deployed behind a reverse proxy, backend is at same origin / /api.
-  const BACKEND = (() => {
-    const host = window.location.hostname;
-    if (host === "localhost" || host === "127.0.0.1") {
-      return "http://localhost:8000";
-    }
-    return ""; // same-origin in prod
-  })();
+  // Unified deployment: backend (FastAPI) also serves this static frontend,
+  // so API calls always target the same origin. Works identically for local
+  // dev (http://localhost:8000) and ngrok tunnels (https://*.ngrok-free.app).
+  const BACKEND = window.location.origin;
 
   // Streaming render pacing. Tokens from Anthropic arrive in variable
   // chunk sizes (1-30 chars). We queue them and flush at a steady rate.

@@ -161,3 +161,28 @@ setup.sh
 3. **补充备用源** — PR 更新 `manifest/maoxuan-index.json` 中的 `url_backup`
 4. **改进 prompt / agent 逻辑** — PR 到 `backend/`
 
+## 临时分享(ngrok)
+
+v0.6 起,FastAPI 在同一个端口上同时服务前端和 API,可以用一条 ngrok 命令把整个站点分享给朋友做用户测试。**API 费用由发起分享的人承担**,不要公开挂在网上。
+
+三步走:
+
+```bash
+# 1. 启动统一服务
+source .venv/bin/activate
+uvicorn backend.main:app --port 8000
+
+# 2. 另开一个终端,开 ngrok 隧道
+ngrok http 8000
+
+# 3. 把 https://xxxx.ngrok-free.app/chat.html 发给朋友
+```
+
+内置保护:
+
+- **CORS** 只放行 `*.ngrok-free.app` 和 `*.ngrok.app`
+- **速率限制** `/chat` 端点每个 IP 每 10 分钟最多 10 次请求,超限返回 429「使用较频繁,请稍后再试」
+- **静态文件白名单**,只暴露 `index.html` / `chat.html` / `browse.html` / `about.html` / `styles.css` 加 `js/` / `assets/` / `data/`。`backend/` / `corpus/` / `manifest/` / `.env` 绝不会通过 ngrok 泄露。
+
+用完记得 `Ctrl+C` 关掉 ngrok 进程,隧道会立即回收;老链接失效。
+

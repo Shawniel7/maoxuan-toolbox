@@ -1,33 +1,48 @@
 """FastAPI entry point for the Thought Toolbox backend.
 
-Endpoints:
-    POST /chat              — stream agent response (Server-Sent Events)
+Serves both API and static frontend from a single uvicorn process on one port,
+so the whole app can be exposed via one ngrok tunnel.
+
+API endpoints:
+    POST /chat              — stream agent response (SSE)
     GET  /articles          — list all 158 articles (metadata only)
     GET  /article/{id}      — rendered markdown of one article
     GET  /chunk/{chunk_id}  — one chunk record (for citation popovers)
     GET  /health            — status + counts
 
+Static serving (registered AFTER the API routes so they take precedence):
+    GET  /                  → index.html
+    GET  /{page}.html       → allowlisted root HTML pages
+    GET  /styles.css        → stylesheet
+    GET  /js/**             → js/ directory
+    GET  /assets/**         → assets/ directory
+    GET  /data/**           → data/ directory (entries.json, schema.md)
+
+Anything outside the allowlist (backend/, corpus/, manifest/, .env, .git, .venv)
+is 404 — never served.
+
 Run:
     uvicorn backend.main:app --reload --port 8000
 
-.env is loaded automatically on startup so ANTHROPIC_API_KEY + related vars
-are available without requiring the caller to export them.
+.env is loaded automatically so ANTHROPIC_API_KEY propagates to rag/agent.
 """
 from __future__ import annotations
 
 import json
 import os
+import time
+from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-# Load .env at module-import time so env vars are available to rag.py / agent.py
 _ENV_PATH = Path(__file__).resolve().parent / ".env"
 if _ENV_PATH.exists():
     load_dotenv(_ENV_PATH)
@@ -39,23 +54,64 @@ MANIFEST_PATH = REPO_ROOT / "manifest" / "maoxuan-index.json"
 CORPUS_RAW = REPO_ROOT / "corpus" / "raw"
 CHUNKS_JSONL = REPO_ROOT / "corpus" / "chunks.jsonl"
 
-app = FastAPI(title="Thought Toolbox backend", version="0.5.0")
+# Allowlist: which root-level files may be served as static HTML/CSS.
+# Added here (not mounted as a StaticFiles dir) to prevent accidental exposure
+# of backend/, corpus/, manifest/, .env, .git, .venv — any of which would
+# leak if we naively mounted the repo root.
+ROOT_STATIC_ALLOWLIST = {
+    "index.html", "chat.html", "about.html", "browse.html", "styles.css",
+}
 
-# CORS: allow localhost:8080 (v1 static site via `python3 -m http.server`)
-# plus 3000/5173 (common frontend dev ports). Tighten for production.
+app = FastAPI(title="Thought Toolbox backend", version="0.6.0")
+
+# ───────────────────────── CORS ─────────────────────────
+# Localhost dev + ngrok tunnel domains (free + paid).
+# For the unified :8000 deployment, same-origin requests don't trigger CORS
+# anyway; this middleware is for cases where a separate static server hits
+# this backend across origins.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://localhost:8000", "http://127.0.0.1:8000",
         "http://localhost:8080", "http://127.0.0.1:8080",
         "http://localhost:3000", "http://127.0.0.1:3000",
         "http://localhost:5173", "http://127.0.0.1:5173",
     ],
+    allow_origin_regex=r"https://[a-z0-9\-]+\.(ngrok-free\.app|ngrok\.app)$",
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
 
-# ───────────────────────── loaders (cached) ─────────────────────────
+# ───────────────────────── soft rate limit on /chat ─────────────────────────
+# In-memory per-IP sliding-window counter. Acceptable for temporary public
+# sharing via ngrok; not production-grade (single-process state, no persistence,
+# no distributed lock). Tune via the constants below.
+_CHAT_RATE_WINDOW_S = 600         # 10 minutes
+_CHAT_RATE_MAX_REQUESTS = 10      # per window per IP
+_chat_request_log: dict[str, list[float]] = defaultdict(list)
+
+
+def _client_ip(request: Request) -> str:
+    """Resolve client IP, honoring X-Forwarded-For set by ngrok / reverse proxies."""
+    fwd = request.headers.get("x-forwarded-for", "")
+    if fwd:
+        return fwd.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _check_chat_rate_limit(request: Request) -> None:
+    ip = _client_ip(request)
+    now = time.time()
+    cutoff = now - _CHAT_RATE_WINDOW_S
+    log = [t for t in _chat_request_log[ip] if t > cutoff]
+    if len(log) >= _CHAT_RATE_MAX_REQUESTS:
+        raise HTTPException(status_code=429, detail="使用较频繁,请稍后再试")
+    log.append(now)
+    _chat_request_log[ip] = log
+
+
+# ───────────────────────── cached loaders ─────────────────────────
 
 @lru_cache(maxsize=1)
 def _load_manifest() -> dict:
@@ -64,7 +120,6 @@ def _load_manifest() -> dict:
 
 @lru_cache(maxsize=1)
 def _article_index() -> dict[str, dict]:
-    """{article_id: manifest_article_entry (with _volume added)}"""
     m = _load_manifest()
     out: dict[str, dict] = {}
     for v in m["volumes"]:
@@ -77,7 +132,6 @@ def _article_index() -> dict[str, dict]:
 
 @lru_cache(maxsize=1)
 def _chunk_index() -> dict[str, dict]:
-    """{chunk_id: chunk_record}"""
     out: dict[str, dict] = {}
     if not CHUNKS_JSONL.exists():
         return out
@@ -95,10 +149,10 @@ def _article_md_path(article_id: str) -> Path | None:
     return CORPUS_RAW / f"vol{a['_volume']}" / f"{article_id}-{a['stable_slug']}.md"
 
 
-# ───────────────────────── request/response models ─────────────────────────
+# ───────────────────────── request models ─────────────────────────
 
 class ChatMessage(BaseModel):
-    role: str  # "user" | "assistant"
+    role: str
     content: str
 
 
@@ -108,7 +162,7 @@ class ChatRequest(BaseModel):
     top_k: int = 8
 
 
-# ───────────────────────── endpoints ─────────────────────────
+# ═════════════════════════ API endpoints ═════════════════════════
 
 @app.get("/health")
 def health() -> dict:
@@ -121,17 +175,17 @@ def health() -> dict:
     chunks_loaded = len(_chunk_index())
     return {
         "status": "ok",
-        "stage": "v0.5 — agent + endpoints",
+        "stage": "v0.6 — ngrok-ready unified server",
         "manifest_articles_total": total_articles,
         "manifest_articles_downloaded": downloaded,
         "chunks_loaded": chunks_loaded,
         "anthropic_key_set": bool(os.environ.get("ANTHROPIC_API_KEY")),
+        "rate_limit": f"{_CHAT_RATE_MAX_REQUESTS} chat reqs / {_CHAT_RATE_WINDOW_S // 60} min per IP",
     }
 
 
 @app.get("/articles")
 def list_articles() -> list[dict]:
-    """List all 158 manifest articles (metadata only, no bodies)."""
     m = _load_manifest()
     out = []
     for v in m["volumes"]:
@@ -162,7 +216,6 @@ def get_article(article_id: str) -> dict:
             detail=f"article {article_id} not yet downloaded (status={a.get('status')})",
         )
     raw = path.read_text(encoding="utf-8")
-    # Strip frontmatter
     body = raw
     if body.startswith("---"):
         end = body.find("\n---", 3)
@@ -202,14 +255,9 @@ def get_chunk(chunk_id: str) -> dict:
 
 
 @app.post("/chat")
-async def chat(req: ChatRequest):
-    """Stream an agent reply as Server-Sent Events.
+async def chat(req: ChatRequest, request: Request):
+    _check_chat_rate_limit(request)
 
-    Event format (one per SSE message):
-        data: {"type": "retrieved", "chunks": [...]}\n\n
-        data: {"type": "text_delta", "delta": "..."}\n\n
-        data: {"type": "done"}\n\n
-    """
     if not req.messages or req.messages[-1].role != "user":
         raise HTTPException(status_code=400, detail="messages must end with a user turn")
 
@@ -232,6 +280,30 @@ async def chat(req: ChatRequest):
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",  # disable buffering in nginx if behind it
+            "X-Accel-Buffering": "no",
         },
     )
+
+
+# ═════════════════════════ static frontend ═════════════════════════
+# Registered AFTER API routes so /chat, /health, /articles, /article/*, /chunk/*
+# all take precedence. Subdirectory mounts are read-only and bounded to
+# directories that only contain public files — corpus/, manifest/, backend/
+# are NEVER mounted.
+
+app.mount("/js", StaticFiles(directory=REPO_ROOT / "js"), name="js")
+app.mount("/assets", StaticFiles(directory=REPO_ROOT / "assets"), name="assets")
+app.mount("/data", StaticFiles(directory=REPO_ROOT / "data"), name="data")
+
+
+@app.get("/", include_in_schema=False)
+def serve_root():
+    return FileResponse(REPO_ROOT / "index.html")
+
+
+@app.get("/{filename}", include_in_schema=False)
+def serve_root_file(filename: str):
+    """Serve allowlisted root-level files (index.html, chat.html, styles.css, …)."""
+    if filename not in ROOT_STATIC_ALLOWLIST:
+        raise HTTPException(status_code=404, detail="not found")
+    return FileResponse(REPO_ROOT / filename)
