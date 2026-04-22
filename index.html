@@ -15,11 +15,25 @@
     <nav class="site-nav">
       <a href="index.html" class="active">首页</a>
       <a href="browse.html">浏览工具</a>
+      <a href="chat.html">对话</a>
       <a href="about.html">关于</a>
     </nav>
   </header>
 
   <main>
+    <section id="mode-picker" class="entry-modes" aria-label="选择模式">
+      <a href="#input-section" class="entry-mode active-mode" aria-current="page">
+        <span class="em-badge">当前</span>
+        <p class="em-title">快速匹配</p>
+        <p class="em-desc">输入一段话,本地匹配 ~50 条经典分析工具。零延迟、不联网、不经任何服务器。</p>
+      </a>
+      <a href="chat.html" class="entry-mode">
+        <span class="em-badge">需要 API</span>
+        <p class="em-title">深度对话</p>
+        <p class="em-desc">和一位熟读全四卷《毛选》的分析师对谈,拿到**可迁移的思维方法**,而不是现成结论。</p>
+      </a>
+    </section>
+
     <section id="input-section">
       <label for="user-input" class="prompt-label">说说你最近卡在哪里?</label>
       <div class="input-wrap">

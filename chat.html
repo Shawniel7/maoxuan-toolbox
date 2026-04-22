@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>对话 · 思想工具箱</title>
+  <meta name="description" content="和一位熟读《毛泽东选集》的现代分析师对话,把你的困惑拆成一个可复用的思维工具。" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="chat-body">
+  <header class="site-header chat-header">
+    <h1 class="site-title">思想工具箱</h1>
+    <p class="site-subtitle">—— 深度对话模式</p>
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="browse.html">浏览工具</a>
+      <a href="chat.html" class="active">对话</a>
+      <a href="about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="chat-main" id="chat-main">
+    <div id="chat-stream" class="chat-stream" aria-live="polite">
+      <div class="chat-welcome" id="chat-welcome">
+        <p class="big">你在卡在哪里?</p>
+        <p>
+          具体地说给它听 —— 工作、学习、人际、决策。
+          它会借用《毛泽东选集》里的分析方法,帮你把问题拆开来看。
+        </p>
+        <p class="chat-welcome-note">
+          <em>这是一个分析工具,不是情感支持的地方。</em>
+          失恋、亲人离世、急性情绪低谷,请找信任的人或专业咨询师聊聊。
+        </p>
+        <div class="chat-examples">
+          <span class="example-chip" data-fill="工作两年没进步,天天机械重复,想跳槽又不敢">工作没进步,想跳槽</span>
+          <span class="example-chip" data-fill="跟对象讨论要不要买房,每次讨论都吵架">要不要买房,一直吵架</span>
+          <span class="example-chip" data-fill="28 了,我妈一直催我相亲,但我觉得我还没准备好">被催婚,没准备好</span>
+          <span class="example-chip" data-fill="想开始一件事但一直拖着,怕做不好">想开始又一直拖着</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-dock" id="chat-input-dock">
+      <form id="chat-form" class="chat-input-wrap" onsubmit="return false">
+        <textarea
+          id="chat-input"
+          placeholder="说说你最近卡在哪里?越具体,分析越贴切。"
+          rows="2"
+          maxlength="2000"
+        ></textarea>
+        <div class="chat-input-actions">
+          <span class="chat-hint" id="chat-hint">Enter 发送 · Shift+Enter 换行</span>
+          <button id="chat-send" class="primary" type="submit">发送</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Popover shell (single instance, repositioned on demand) -->
+  <div id="citation-popover" class="citation-popover hidden" role="tooltip">
+    <div class="citation-popover-body"></div>
+    <a class="citation-popover-link" href="#" target="_blank" rel="noopener">→ 查看全文</a>
+  </div>
+
+  <!-- Full-article modal -->
+  <div id="article-modal" class="article-modal hidden" role="dialog" aria-modal="true">
+    <div class="article-modal-card">
+      <button class="article-modal-close" id="article-modal-close" aria-label="关闭">✕</button>
+      <div class="article-modal-content" id="article-modal-content">
+        <div class="loading">加载中…</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer chat-footer">
+    <p>
+      分析工具,不替代专业建议 ·
+      <a href="about.html">免责声明</a>
+    </p>
+  </footer>
+
+  <script src="js/chat.js"></script>
+</body>
+</html>
