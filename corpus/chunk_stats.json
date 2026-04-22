@@ -1,0 +1,24 @@
+{
+  "total_chunks": 3365,
+  "footnote_chunks": 1203,
+  "non_footnote_chunks": 2162,
+  "articles_processed": 158,
+  "per_article_count_stats": {
+    "min": 1,
+    "max": 178,
+    "mean": 21.29746835443038
+  },
+  "length_histogram": {
+    "0-100": 774,
+    "100-200": 376,
+    "200-300": 225,
+    "300-400": 148,
+    "400-500": 1485,
+    "500-600": 314,
+    "600-700": 13,
+    "700-800": 5,
+    "800-900": 0,
+    "900-inf": 25
+  },
+  "unique_section_titles": 251
+}
