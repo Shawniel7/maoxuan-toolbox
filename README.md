@@ -13,10 +13,12 @@
 
 ---
 
-![MIT License](https://img.shields.io/badge/license-MIT-blue)
+![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 ![Made with Claude](https://img.shields.io/badge/made_with-Claude_Code-d97757)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab)
 ![158 articles](https://img.shields.io/badge/corpus-158_articles_·_3365_chunks-a0281e)
+
+*本项目由 [Xiaoyi Chen](https://github.com/Shawniel7) 发起,首次公开于 2026 年 4 月。commit 历史保留在 Git 中,可作为项目时间线的原始记录。*
 
 ---
 
@@ -235,7 +237,8 @@ ngrok http 8000
 │   └── rerank-experiment.md      # Layer-4 LLM rerank 的失败记录与后续方案
 ├── setup.sh                      # 一键构建语料库
 ├── CONTRIBUTING.md               # (当前仍是 v1 贡献说明,待更新)
-└── LICENSE                       # MIT
+├── LICENSE                       # Apache 2.0
+└── NOTICE                        # 第三方组件与上游文本的归属声明
 ```
 
 ---
@@ -275,7 +278,9 @@ ngrok http 8000
 
 ## License
 
-MIT — 见 [`LICENSE`](LICENSE)。欢迎 fork 做你自己的思想工具箱(阳明心学版、斯多葛版、佛学版、荀子版……这是个好模板)。
+Licensed under the Apache License, Version 2.0. See [LICENSE](./LICENSE) and [NOTICE](./NOTICE).
+
+简要说明:允许任何人自由使用、修改、商用本项目,前提是保留原作者署名、保留许可证文件、标注对文件的修改。禁止以侵犯本项目贡献者专利为由的滥用。
 
 ---
 

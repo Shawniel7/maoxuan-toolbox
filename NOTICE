@@ -1,0 +1,29 @@
+思想工具箱 (Maoxuan Toolbox)
+Copyright 2026 Xiaoyi Chen (github.com/Shawniel7)
+
+This product includes software developed at the above by the copyright holder.
+
+--- Upstream text attribution ---
+
+The corpus content retrieved by the ingest pipeline originates from:
+  中文马克思主义文库 (Chinese Marxists Internet Archive)
+  https://www.marxists.org/chinese/maozedong/
+
+Upstream text is not redistributed within this repository. The ingest
+script downloads text to local user storage at runtime.
+
+--- Third-party software ---
+
+This project depends on the following open-source components, each under
+their respective licenses:
+
+  - FastAPI (MIT)                  https://github.com/tiangolo/fastapi
+  - Anthropic Python SDK (MIT)     https://github.com/anthropics/anthropic-sdk-python
+  - sentence-transformers (Apache 2.0)
+  - BAAI/bge-small-zh-v1.5 (MIT)   https://huggingface.co/BAAI/bge-small-zh-v1.5
+  - faiss (MIT)                    https://github.com/facebookresearch/faiss
+  - rank_bm25 (Apache 2.0)         https://github.com/dorianbrown/rank_bm25
+  - jieba (MIT)                    https://github.com/fxsjy/jieba
+  - beautifulsoup4 (MIT)           https://www.crummy.com/software/BeautifulSoup
+
+For full dependency list, see backend/requirements.txt
