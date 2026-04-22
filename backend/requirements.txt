@@ -9,7 +9,14 @@ markdownify==0.13.1
 
 # Embedding (local default)
 sentence-transformers==3.2.1
-torch==2.2.2
+# torch is platform-constrained. Range picks the newest wheel pip can find for your platform:
+#   Apple Silicon / Linux / Windows  → resolves to 2.5.x
+#   Intel Mac (x86_64 macOS)          → pins at 2.2.x (PyTorch dropped Intel Mac after 2.2)
+# See "Known environment quirks" in README if your resolver picks an incompatible wheel.
+torch>=2.2,<2.6
+# numpy 2.x breaks torch 2.2.x ABI (the Intel Mac path). Pin <2 to match.
+# When torch upgrades to 2.5.x+ are viable on a given host, numpy<2 still works.
+numpy<2
 faiss-cpu==1.9.0
 
 # API surface
@@ -23,3 +30,7 @@ anthropic==0.39.0
 # CLI UX
 tqdm==4.67.1
 python-dotenv==1.0.1
+
+# Hybrid retrieval (Layer 1 of rag.py)
+rank-bm25==0.2.2
+jieba==0.42.1

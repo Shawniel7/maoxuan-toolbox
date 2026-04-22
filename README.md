@@ -82,7 +82,7 @@ MIT — 见 [`LICENSE`](LICENSE)。欢迎 fork 做成你自己的思想工具箱
 
 ## 关于语料库
 
-本项目的分析工具基于《毛泽东选集》四卷全集(约 159 篇,130 万字)。**本仓库不持有也不分发上游文本版权**。运行 `./setup.sh` 时,脚本会从以下公开数字化资源下载到你的本地 `corpus/` 目录(该目录已 gitignore):
+本项目的分析工具基于《毛泽东选集》四卷全集(158 篇,分卷 17/40/31/70,约 130 万字)。**本仓库不持有也不分发上游文本版权**。运行 `./setup.sh` 时,脚本会从以下公开数字化资源下载到你的本地 `corpus/` 目录(该目录已 gitignore):
 
 - 主源:马克思主义文库 [marxists.org/chinese/maozedong](https://www.marxists.org/chinese/maozedong/)
 - 备源:中文维基文库
@@ -97,7 +97,7 @@ MIT — 见 [`LICENSE`](LICENSE)。欢迎 fork 做成你自己的思想工具箱
 
 | 项目 | 规模 |
 |---|---|
-| 原文篇目 | ~159 篇 |
+| 原文篇目 | 158 篇 |
 | 原文总字数 | ~130 万字 |
 | 切块后 chunks | ~5000 条(预计) |
 | 语料存储 | ~100MB(不 commit) |
@@ -112,6 +112,21 @@ MIT — 见 [`LICENSE`](LICENSE)。欢迎 fork 做成你自己的思想工具箱
 ```
 
 当前进度:**skeleton only**。`setup.sh` 会跑通 venv + 依赖安装 + manifest 验证;抓取/切块/向量化阶段在 Step 3-4 陆续点亮。
+
+### Known environment quirks
+
+| 环境 | 说明 |
+|---|---|
+| **Apple Silicon (arm64 macOS)** | 默认栈,所有依赖都有现成 wheel。`torch` 会解析到 2.5.x。 |
+| **Intel Mac (x86_64 macOS)** | PyTorch 在 2.2.x 之后放弃了 Intel Mac;`requirements.txt` 中的 `torch>=2.2,<2.6` 会在此平台自动解析到 2.2.2。无需手动调整。 |
+| **Linux / Windows** | 同 Apple Silicon,`torch` 解析到 2.5.x。若需 GPU,改装 `torch==2.5.1+cu121`(或当前 CUDA 版本对应的 wheel)。 |
+| **Python 3.12** | 已确认可用(开发主力版本)。 |
+| **Python 3.11** | 未主动测试但无已知不兼容,应可用。 |
+| **Python 3.13** | 未测试。`sentence-transformers` 与 `torch` 的 3.13 兼容性尚在滚动中,若遇 wheel 缺失建议降到 3.12。 |
+
+> 如果 `pip install` 在 torch 阶段失败,第一时间检查 `python3 --version` 与 `uname -m`,绝大多数坑都是平台/版本错配。
+
+> **NumPy 注意**: 因为 Intel Mac 走 torch 2.2.x,它的 wheel 是用 NumPy 1.x ABI 编译的。`requirements.txt` 里 `numpy<2` 固定了兼容版本。如果你先装了 numpy 2.x 再装 torch,会在 import 阶段报 `_ARRAY_API not found`;执行 `pip install "numpy<2"` 降级即可。
 
 ## v3 目录结构
 
@@ -130,7 +145,7 @@ backend/
 ├── requirements.txt
 └── .env.example
 manifest/
-└── maoxuan-index.json   # 159 篇元数据索引(committed)
+└── maoxuan-index.json   # 158 篇元数据索引(committed)
 corpus/                  # 运行时生成,大部分 gitignored
 ├── raw/vol1..vol4/      # 抓取后的 markdown
 ├── stories/             # 30+ 故事案例(committable)
